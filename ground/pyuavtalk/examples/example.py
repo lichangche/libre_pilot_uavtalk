@@ -55,7 +55,7 @@ class UavtalkDemo():
             _port = int(port[3:])-1
         else:
             _port = port
-        serPort = serial.Serial(_port, 57600, timeout=.5)
+        serPort = serial.Serial(_port, 38400, timeout=.5)
         if not serPort.isOpen():
             raise IOError("Failed to open serial port")
         
@@ -91,7 +91,7 @@ class UavtalkDemo():
     def showAttitudeViaObserver(self):
         print "Request fast periodic updates for AttitudeState"
         self.objMan.AttitudeState.metadata.telemetryUpdateMode.value = UAVMetaDataObject.UpdateMode.PERIODIC
-        self.objMan.AttitudeState.metadata.telemetryUpdatePeriod.value = 50
+        self.objMan.AttitudeState.metadata.telemetryUpdatePeriod.value = 10
         self.objMan.AttitudeState.metadata.updated()
         
         print "Install Observer for AttitudeState updates\n"
@@ -101,7 +101,7 @@ class UavtalkDemo():
             time.sleep(1)
         
     def showAttitudeViaWait(self):
-        print "Request fast periodic updates for AttitudeState"
+        print "wait Request fast periodic updates for AttitudeState"
         self.objMan.AttitudeState.metadata.telemetryUpdateMode.value = UAVMetaDataObject.UpdateMode.PERIODIC
         self.objMan.AttitudeState.metadata.telemetryUpdatePeriod.value = 50
         self.objMan.AttitudeState.metadata.updated()
@@ -112,10 +112,12 @@ class UavtalkDemo():
                     
     def showAttitudeViaGet(self):
         while True:
+            print "getUpdate"
             self.objMan.AttitudeState.getUpdate()
             self._onAttitudeUpdate(self.objMan.AttitudeState)
         
     def _onAttitudeUpdate(self, args):
+        print "getUpdated"
         self.nbUpdates += 1
         
         now = time.time()    

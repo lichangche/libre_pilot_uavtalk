@@ -51,7 +51,7 @@ class ConnectionManager(object):
         
     def connect(self):
         timeout = True
-        logging.debug("Connecting")
+        logging.error("Connecting")
         startTime = time.clock()
         while not self.connected:
             try:
@@ -81,11 +81,13 @@ class ConnectionManager(object):
         
         if self.ftsObj.Status.value == self.statusFieldClss.DISCONNECTED:  
             logging.debug(" Handshake REQ")
+            print " Handshake REQ"
             self.gcsObj.Status.value = self.statusFieldClss.HANDSHAKEREQ
             self.gcsObj.updated()
             
         elif self.ftsObj.Status.value == self.statusFieldClss.HANDSHAKEACK:
             logging.debug(" Got Handshake ACK")
+            print " Got Handshake ACK"
             self.gcsObj.Status.value = self.statusFieldClss.CONNECTED
             self.gcsObj.updated()
         

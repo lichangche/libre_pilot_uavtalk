@@ -130,9 +130,9 @@ class UavTalkRecThread(threading.Thread):
                 rx = self.uavTalk.serial.read(1)
                 if len(rx) > 0:
                     rx = ord(rx)
-    #                if (rx == SYNC):
-    #                    print
-    #                print hex(rx),
+                     if (rx == SYNC):
+                         print
+                     print hex(rx),
                     self._consumeByte(rx)
         else:
             print "Nothing to do!"
@@ -165,6 +165,7 @@ class UavTalkRecThread(threading.Thread):
             if self.rxCount == 2:    
                 # Received complete packet size, check for valid packet size
                 if (self.rxSize < HEADER_LENGTH) or (self.rxSize > HEADER_LENGTH + MAX_PAYLOAD_LENGTH):
+                    print "INVALID Packet Size"
                     logging.error("INVALID Packet Size")
                     self.rxState = UavTalkRecThread.STATE_SYNC
                 else:
